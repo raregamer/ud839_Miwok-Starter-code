@@ -4,17 +4,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class NumbersActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_numbers);
-        String [] words = {"One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"};
+        ArrayList<String> words = new ArrayList<String>();
+        Collections.addAll(words,"One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten");
 
-        Log.v("NumbersActivity","Words at index 0 " + words[0]);
-        Log.v("NumbersActivity","Words at index 1 " + words[1]);
-        Log.v("NumbersActivity","Words at index 2" + words[2]);
+        for (int i = 0; i < words.size();i++) {
 
+            Log.v("NumbersActivity", "Words at index " + i + " " + words.get(i));
+
+        }
     }
 }
