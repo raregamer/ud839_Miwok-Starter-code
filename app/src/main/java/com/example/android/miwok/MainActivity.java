@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView numbers = (TextView) findViewById(R.id.numbers);
         TextView family = (TextView) findViewById(R.id.family);
-        final TextView colors = (TextView) findViewById(R.id.colors);
+        TextView colors = (TextView) findViewById(R.id.colors);
         TextView phrases = (TextView) findViewById(R.id.phrases);
 
         numbers.setOnClickListener(new View.OnClickListener() {
