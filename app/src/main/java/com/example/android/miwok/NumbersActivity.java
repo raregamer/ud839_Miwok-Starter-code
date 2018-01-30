@@ -13,7 +13,8 @@ public class NumbersActivity extends AppCompatActivity {
         String [] words = {"One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"};
 
         Log.v("NumbersActivity","Words at index 0 " + words[0]);
-        Log.v("NumbersActicity","Words at index 1 " + words[1]);
+        Log.v("NumbersActivity","Words at index 1 " + words[1]);
+        Log.v("NumbersActivity","Words at index 2" + words[2]);
 
     }
 }
