@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<!-- used as an example to refresh memory. If I want to make a new type of list layout -->
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/colors_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.android.miwok.ColorActivity">
 
-</android.support.constraint.ConstraintLayout>
+</ListView>
