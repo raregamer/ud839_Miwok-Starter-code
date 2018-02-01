@@ -11,7 +11,8 @@ public class Word {
 
     private String mDefaultTranslation;
     private String mMiwokTranslation;
-    private int mImageWordIconResource;
+    private int mImageWordIconResource = NO_IMAGE_PROVIDED;
+    private static final int NO_IMAGE_PROVIDED = -1;
 
     //Constructor to make word.
     public Word(String defaultTranslation, String miwokTranslation){
@@ -26,6 +27,7 @@ public class Word {
             this.mDefaultTranslation = defaultTranslation;
             this.mMiwokTranslation = miwokTranslation;
             this.mImageWordIconResource = imageResourceID;
+
         }
 
     //getter for default translation of word(native language i.e(ENGLISH)
@@ -44,6 +46,10 @@ public class Word {
 
     public int getImageWordIcon() {
             return mImageWordIconResource;
+    }
+
+    public boolean hasImage(){
+            return mImageWordIconResource != NO_IMAGE_PROVIDED;
     }
 
 

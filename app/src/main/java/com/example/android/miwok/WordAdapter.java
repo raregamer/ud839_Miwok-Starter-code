@@ -4,6 +4,7 @@ package com.example.android.miwok;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,15 @@ import java.util.ArrayList;
 
 public class WordAdapter extends ArrayAdapter<Word>{
 
+    private int mColorResourceID;
 
-    public WordAdapter(Activity context, ArrayList<Word> words) {
+
+    public WordAdapter(Activity context, ArrayList<Word> words,int color) {
 
         super(context,0,words);
+
+
+        mColorResourceID = color;
 
     }
 @Override
@@ -46,15 +52,20 @@ public class WordAdapter extends ArrayAdapter<Word>{
         miwokWord.setText(currentWord.getMiwokTranslation());
 
         //make the image view come to life!
-    ImageView wordIconImage = (ImageView) listItemView.findViewById(R.id.image_icon);
-    if(wordIconImage != null) {
-        wordIconImage.setVisibility(View.VISIBLE);
-        wordIconImage.setImageResource(currentWord.getImageWordIcon());
-    } else {
-        wordIconImage.setVisibility(View.GONE);
-    }
+        ImageView wordIconImage = (ImageView) listItemView.findViewById(R.id.image_icon);
+        if(currentWord.hasImage()) {
+            wordIconImage.setImageResource(currentWord.getImageWordIcon());
+            wordIconImage.setVisibility(View.VISIBLE);
+        } else {
+            wordIconImage.setVisibility(View.GONE);
+        }
+         View wordBackgroundColor = listItemView.findViewById(R.id.word_text);
 
-    return listItemView;
+         int color = ContextCompat.getColor(getContext(),mColorResourceID);
+
+         wordBackgroundColor.setBackgroundColor(color);
+
+         return listItemView;
 
 
 

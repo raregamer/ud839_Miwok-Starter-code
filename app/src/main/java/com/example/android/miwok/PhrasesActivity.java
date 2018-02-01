@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class PhrasesActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +28,7 @@ public class PhrasesActivity extends AppCompatActivity {
         phrases.add(new Word("Come here.","әnni'nem"));
 
 
-        WordAdapter phraseAdapter = new WordAdapter(this,phrases);
+        WordAdapter phraseAdapter = new WordAdapter(this,phrases,R.color.category_phrases);
 
 
         ListView phraseList = (ListView) findViewById(R.id.list);
