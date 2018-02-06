@@ -13,20 +13,23 @@ public class Word {
     private String mMiwokTranslation;
     private int mImageWordIconResource = NO_IMAGE_PROVIDED;
     private static final int NO_IMAGE_PROVIDED = -1;
+    private int mAudioFile;
 
     //Constructor to make word.
-    public Word(String defaultTranslation, String miwokTranslation){
+    public Word(String defaultTranslation, String miwokTranslation, int audioFile){
         this.mDefaultTranslation = defaultTranslation;
         this.mMiwokTranslation = miwokTranslation;
+        this.mAudioFile = audioFile;
     }
 
     //Constructor to make a word with image.
 
-        public Word(int imageResourceID, String defaultTranslation, String miwokTranslation){
+        public Word(int imageResourceID, String defaultTranslation, String miwokTranslation, int audioFile){
 
             this.mDefaultTranslation = defaultTranslation;
             this.mMiwokTranslation = miwokTranslation;
             this.mImageWordIconResource = imageResourceID;
+            this.mAudioFile = audioFile;
 
         }
 
@@ -35,6 +38,11 @@ public class Word {
 
         return mDefaultTranslation;
 
+    }
+
+    //getter for audio file
+    public int getAudioFile(){
+            return mAudioFile;
     }
 
     //Getter for the Miwok word
