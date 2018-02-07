@@ -22,20 +22,20 @@ import java.util.List;
 public class FamilyActivity extends AppCompatActivity {
 
     private MediaPlayer mMediaPlayer;
-//    private AudioManager mAudioManager;
+    private AudioManager mAudioManager;
 
 
     @Override
     protected void onStop() {
         super.onStop();
-        mMediaPlayer.release();
+        releaseMediaPlayer();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
-//        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         final ArrayList<Word> familyList = new ArrayList<Word>();
 
@@ -65,11 +65,11 @@ public class FamilyActivity extends AppCompatActivity {
 
                 Word word = familyList.get(position);
 
-//                int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
-//                        AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-//
-//                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-//                    // We have audio focus now.
+                int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
+                        AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    // We have audio focus now.
 
                     Toast.makeText(FamilyActivity.this, word.getDefaultTranslation(), Toast.LENGTH_SHORT).show();
                     //create media player
@@ -84,6 +84,8 @@ public class FamilyActivity extends AppCompatActivity {
                         }
 
                     });
+
+                }
 
                 }
 //            }
@@ -106,36 +108,36 @@ public class FamilyActivity extends AppCompatActivity {
             // setting the media player to null is an easy way to tell that the media player
             // is not configured to play an audio file at the moment.
             mMediaPlayer = null;
-            //            mAudioManager.abandonAudioFocus(audioFocusChangeListener);
+                        mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
 
 
         }
     }
 
-//    private AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
-//        @Override
-//        public void onAudioFocusChange(int focusChange) {
-//            if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
-//                    focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
-//                // The AUDIOFOCUS_LOSS_TRANSIENT case means that we've lost audio focus for a
-//                // short amount of time. The AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK case means that
-//                // our app is allowed to continue playing sound but at a lower volume. We'll treat
-//                // both cases the same way because our app is playing short sound files.
-//
-//                // Pause playback and reset player to the start of the file. That way, we can
-//                // play the word from the beginning when we resume playback.
-//                mMediaPlayer.pause();
-//                mMediaPlayer.seekTo(0);
-//            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
-//                // The AUDIOFOCUS_GAIN case means we have regained focus and can resume playback.
-//                mMediaPlayer.start();
-//            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
-//                // The AUDIOFOCUS_LOSS case means we've lost audio focus and
-//                // Stop playback and clean up resources
-//                releaseMediaPlayer();
-//            }
-//        }
-//    };
+    private AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
+                    focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
+                // The AUDIOFOCUS_LOSS_TRANSIENT case means that we've lost audio focus for a
+                // short amount of time. The AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK case means that
+                // our app is allowed to continue playing sound but at a lower volume. We'll treat
+                // both cases the same way because our app is playing short sound files.
+
+                // Pause playback and reset player to the start of the file. That way, we can
+                // play the word from the beginning when we resume playback.
+                mMediaPlayer.pause();
+                mMediaPlayer.seekTo(0);
+            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                // The AUDIOFOCUS_GAIN case means we have regained focus and can resume playback.
+                mMediaPlayer.start();
+            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                // The AUDIOFOCUS_LOSS case means we've lost audio focus and
+                // Stop playback and clean up resources
+                releaseMediaPlayer();
+            }
+        }
+    };
 
 
 

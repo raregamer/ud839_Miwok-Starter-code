@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class ColorActivity extends AppCompatActivity {
 
     private MediaPlayer mMediaPlayer;
-//    private AudioManager mAudioManager;
+    private AudioManager mAudioManager;
     private MediaPlayer.OnCompletionListener mCompletionListener =  new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
@@ -35,7 +35,7 @@ public class ColorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
-//        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
 
         final ArrayList<Word> colorWords = new ArrayList<Word>();
@@ -62,20 +62,21 @@ public class ColorActivity extends AppCompatActivity {
 
                 Word word = colorWords.get(position);
 
-//                int result = mAudioManager.requestAudioFocus(audioFocusChangeListener,
-//                        // Use the music stream.
-//                        AudioManager.STREAM_MUSIC,
-//                        // Request permanent focus.
-//                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-//
-//                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-//                    // Start playback
+                int result = mAudioManager.requestAudioFocus(audioFocusChangeListener,
+                        // Use the music stream.
+                        AudioManager.STREAM_MUSIC,
+                        // Request permanent focus.
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    // Start playback
 
                     Toast.makeText(ColorActivity.this, word.getDefaultTranslation(), Toast.LENGTH_SHORT).show();
 
                     mMediaPlayer = MediaPlayer.create(ColorActivity.this, word.getAudioFile());
                     mMediaPlayer.start();
                     mMediaPlayer.setOnCompletionListener(mCompletionListener);
+                }
                 }
 
 //            }
@@ -101,41 +102,41 @@ public class ColorActivity extends AppCompatActivity {
             // is not configured to play an audio file at the moment.
             mMediaPlayer = null;
 
-//            mAudioManager.abandonAudioFocus(audioFocusChangeListener);
+            mAudioManager.abandonAudioFocus(audioFocusChangeListener);
 
         }
     }
 
     //AudioFocusListener
-//   private AudioManager.OnAudioFocusChangeListener audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
-//        @Override
-//        public void onAudioFocusChange(int focusChange) {
-//
-//            if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange ==
-//                    AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK ) {
-//                // Pause playback because your Audio Focus was
-//                mMediaPlayer.pause();
-//                // temporarily stolen, but will be back soon.
-//                // i.e. for a phone call
-//            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
-//                // Stop playback, because you lost the Audio Focus.
-//                // i.e. the user started some other playback app
-//                // Remember to unregister your controls/buttons here.
-//                // And release the kra — Audio Focus!
-//                // You’re done.
-//                releaseMediaPlayer();
-//
-//            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
-//                // Resume playback, because you hold the Audio Focus
-//                // again!
-//                // i.e. the phone call ended or the nav directions
-//                // are finished
-//                // If you implement ducking and lower the volume, be
-//                // sure to return it to normal here, as well.
-//                mMediaPlayer.start();
-//            }
-//
-//        }
-//    };
+   private AudioManager.OnAudioFocusChangeListener audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+
+            if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange ==
+                    AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK ) {
+                // Pause playback because your Audio Focus was
+                mMediaPlayer.pause();
+                // temporarily stolen, but will be back soon.
+                // i.e. for a phone call
+            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                // Stop playback, because you lost the Audio Focus.
+                // i.e. the user started some other playback app
+                // Remember to unregister your controls/buttons here.
+                // And release the kra — Audio Focus!
+                // You’re done.
+                releaseMediaPlayer();
+
+            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                // Resume playback, because you hold the Audio Focus
+                // again!
+                // i.e. the phone call ended or the nav directions
+                // are finished
+                // If you implement ducking and lower the volume, be
+                // sure to return it to normal here, as well.
+                mMediaPlayer.start();
+            }
+
+        }
+    };
 
 }

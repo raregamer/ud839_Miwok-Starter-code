@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class PhrasesActivity extends AppCompatActivity {
 
     private MediaPlayer mMediaPlayer;
-//    private AudioManager mAudioManager;
+    private AudioManager mAudioManager;
 
 
 
@@ -30,7 +30,7 @@ public class PhrasesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
         //create audio manager
-//        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
 
         final ArrayList<Word> phrases = new ArrayList<Word>();
@@ -66,14 +66,14 @@ public class PhrasesActivity extends AppCompatActivity {
 
                 //get word position.
 
-//                int result = mAudioManager.requestAudioFocus(audioFocusChangeListener,
-//                        // Use the music stream.
-//                        AudioManager.STREAM_MUSIC,
-//                        // Request permanent focus.
-//                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-//
-//                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-//                    // Start playback
+                int result = mAudioManager.requestAudioFocus(audioFocusChangeListener,
+                        // Use the music stream.
+                        AudioManager.STREAM_MUSIC,
+                        // Request permanent focus.
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    // Start playback
 
 
                     Toast.makeText(PhrasesActivity.this, word.getDefaultTranslation(), Toast.LENGTH_SHORT).show();
@@ -88,7 +88,7 @@ public class PhrasesActivity extends AppCompatActivity {
                             releaseMediaPlayer();
                         }
                     });
-//                }
+                }
             }
         });
 
@@ -111,41 +111,41 @@ public class PhrasesActivity extends AppCompatActivity {
             // is not configured to play an audio file at the moment.
             mMediaPlayer = null;
 
-//           mAudioManager.abandonAudioFocus(audioFocusChangeListener);
+           mAudioManager.abandonAudioFocus(audioFocusChangeListener);
 
         }
     }
 
     //AudioFocusListener
-//    AudioManager.OnAudioFocusChangeListener audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
-//        @Override
-//        public void onAudioFocusChange(int focusChange) {
-//
-//            if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange ==
-//                    AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
-//                // Pause playback because your Audio Focus was
-//                mMediaPlayer.pause();
-//                // temporarily stolen, but will be back soon.
-//                // i.e. for a phone call
-//            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
-//                // Stop playback, because you lost the Audio Focus.
-//                // i.e. the user started some other playback app
-//                // Remember to unregister your controls/buttons here.
-//                // And release the kra — Audio Focus!
-//                // You’re done.
-//                releaseMediaPlayer();
-//
-//            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
-//                // Resume playback, because you hold the Audio Focus
-//                // again!
-//                // i.e. the phone call ended or the nav directions
-//                // are finished
-//                // If you implement ducking and lower the volume, be
-//                // sure to return it to normal here, as well.
-//                mMediaPlayer.start();
-//            }
-//
-//        }
-//    };
+    AudioManager.OnAudioFocusChangeListener audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+
+            if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange ==
+                    AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
+                // Pause playback because your Audio Focus was
+                mMediaPlayer.pause();
+                // temporarily stolen, but will be back soon.
+                // i.e. for a phone call
+            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                // Stop playback, because you lost the Audio Focus.
+                // i.e. the user started some other playback app
+                // Remember to unregister your controls/buttons here.
+                // And release the kra — Audio Focus!
+                // You’re done.
+                releaseMediaPlayer();
+
+            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                // Resume playback, because you hold the Audio Focus
+                // again!
+                // i.e. the phone call ended or the nav directions
+                // are finished
+                // If you implement ducking and lower the volume, be
+                // sure to return it to normal here, as well.
+                mMediaPlayer.start();
+            }
+
+        }
+    };
 
 }
