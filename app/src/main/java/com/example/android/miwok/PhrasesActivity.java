@@ -1,5 +1,7 @@
 package com.example.android.miwok;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,13 +14,24 @@ import java.util.ArrayList;
 
 public class PhrasesActivity extends AppCompatActivity {
 
-    MediaPlayer mMediaPlayer;
+    private MediaPlayer mMediaPlayer;
+//    private AudioManager mAudioManager;
 
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        releaseMediaPlayer();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
+        //create audio manager
+//        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
 
         final ArrayList<Word> phrases = new ArrayList<Word>();
 
@@ -34,7 +47,7 @@ public class PhrasesActivity extends AppCompatActivity {
         phrases.add(new Word("Come here.","әnni'nem",R.raw.phrase_come_here));
 
 
-        WordAdapter phraseAdapter = new WordAdapter(this,phrases,R.color.category_phrases);
+        WordAdapter phraseAdapter = new WordAdapter(PhrasesActivity.this,phrases,R.color.category_phrases);
 
 
         ListView phraseList = (ListView) findViewById(R.id.list);
@@ -44,13 +57,95 @@ public class PhrasesActivity extends AppCompatActivity {
         phraseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-               Word word = phrases.get(position);
-                Toast.makeText(PhrasesActivity.this,word.getDefaultTranslation(),Toast.LENGTH_SHORT).show();
 
-                mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, word.getAudioFile());
-                mMediaPlayer.start();
+                releaseMediaPlayer();
+
+
+                Word word = phrases.get(position);
+               //added toast of localized word.
+
+                //get word position.
+
+//                int result = mAudioManager.requestAudioFocus(audioFocusChangeListener,
+//                        // Use the music stream.
+//                        AudioManager.STREAM_MUSIC,
+//                        // Request permanent focus.
+//                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+//
+//                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+//                    // Start playback
+
+
+                    Toast.makeText(PhrasesActivity.this, word.getDefaultTranslation(), Toast.LENGTH_SHORT).show();
+                    //create media player
+                    mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, word.getAudioFile());
+                    //start media player
+                    mMediaPlayer.start();
+
+                    mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mediaPlayer) {
+                            releaseMediaPlayer();
+                        }
+                    });
+//                }
             }
         });
 
+
+
     }
+
+    /**
+     * Clean up the media player by releasing its resources.
+     */
+    private void releaseMediaPlayer() {
+        // If the media player is not null, then it may be currently playing a sound.
+        if (mMediaPlayer != null) {
+            // Regardless of the current state of the media player, release its resources
+            // because we no longer need it.
+            mMediaPlayer.release();
+
+            // Set the media player back to null. For our code, we've decided that
+            // setting the media player to null is an easy way to tell that the media player
+            // is not configured to play an audio file at the moment.
+            mMediaPlayer = null;
+
+//           mAudioManager.abandonAudioFocus(audioFocusChangeListener);
+
+        }
+    }
+
+    //AudioFocusListener
+//    AudioManager.OnAudioFocusChangeListener audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+//        @Override
+//        public void onAudioFocusChange(int focusChange) {
+//
+//            if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange ==
+//                    AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
+//                // Pause playback because your Audio Focus was
+//                mMediaPlayer.pause();
+//                // temporarily stolen, but will be back soon.
+//                // i.e. for a phone call
+//            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+//                // Stop playback, because you lost the Audio Focus.
+//                // i.e. the user started some other playback app
+//                // Remember to unregister your controls/buttons here.
+//                // And release the kra — Audio Focus!
+//                // You’re done.
+//                releaseMediaPlayer();
+//
+//            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+//                // Resume playback, because you hold the Audio Focus
+//                // again!
+//                // i.e. the phone call ended or the nav directions
+//                // are finished
+//                // If you implement ducking and lower the volume, be
+//                // sure to return it to normal here, as well.
+//                mMediaPlayer.start();
+//            }
+//
+//        }
+//    };
+
 }
