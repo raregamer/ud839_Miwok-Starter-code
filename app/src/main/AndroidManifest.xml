@@ -32,17 +32,46 @@
         </activity>
 
         <activity android:name=".PhrasesActivity"
-            android:label="@string/category_phrases"/>
+            android:label="@string/category_phrases"
+            android:parentActivityName="com.example.android.miwok.MainActivity">
+            <!-- add up action button on navigation -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.miwok.MainActivity"
+                />
+
+        </activity>
+
+
 
         <activity android:name=".NumbersActivity"
-            android:label="@string/category_numbers"/>
+            android:label="@string/category_numbers">
+            <!-- add up action button on navigation -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.miwok.MainActivity"
+                />
+
+        </activity>
 
         <activity android:name=".FamilyActivity"
-            android:label="@string/category_family" />
+            android:label="@string/category_family">
+            <!-- add up action button on navigation -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.miwok.MainActivity"
+                />
 
+        </activity>
         <activity android:name=".ColorActivity"
-            android:label="@string/category_colors"/>
+            android:label="@string/category_colors">
+            <!-- add up action button on navigation -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.miwok.MainActivity"
+                />
 
+        </activity>
     </application>
 
 </manifest>

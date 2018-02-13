@@ -54,6 +54,9 @@ public class PhrasesActivity extends AppCompatActivity {
 
         phraseList.setAdapter(phraseAdapter);
 
+
+
+
         phraseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
